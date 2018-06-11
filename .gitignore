@@ -2,6 +2,4 @@
 *.log
 *.swp
 node_modules
-lib
-umd
 .idea
