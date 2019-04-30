@@ -18,22 +18,18 @@ const createConnectedRouter = (structure) => {
 
     constructor(props, context) {
       super(props)
-      this.passedContext = context
-    }
-
-    componentDidMount() {
       const { history, onLocationChanged } = this.props
 
       this.inTimeTravelling = false
 
       // Subscribe to store changes
-      this.unsubscribe = this.passedContext.store.subscribe(() => {
+      this.unsubscribe = context.store.subscribe(() => {
         // Extract store's location
         const {
           pathname: pathnameInStore,
           search: searchInStore,
           hash: hashInStore,
-        } = getLocation(this.passedContext.store.getState())
+        } = getLocation(context.store.getState())
         // Extract history's location
         const {
           pathname: pathnameInHistory,
