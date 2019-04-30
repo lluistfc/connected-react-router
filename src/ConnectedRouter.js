@@ -14,31 +14,31 @@ const createConnectedRouter = (structure) => {
    */
 
   class ConnectedRouter extends Component {
-    constructor(props, context) {
-      super(props)
+    componentDidMount() {
+      const { store, history, onLocationChanged } = this.props
 
       this.inTimeTravelling = false
 
-      // Subscribe to store changes
-      this.unsubscribe = context.store.subscribe(() => {
+      // Subscribe to store changes to check if we are in time travelling
+      this.unsubscribe = store.subscribe(() => {
         // Extract store's location
         const {
           pathname: pathnameInStore,
           search: searchInStore,
           hash: hashInStore,
-        } = toJS(getIn(context.store.getState(), ['router', 'location']))
+        } = toJS(getIn(store.getState(), ['router', 'location']))
         // Extract history's location
         const {
           pathname: pathnameInHistory,
           search: searchInHistory,
           hash: hashInHistory,
-        } = props.history.location
+        } = history.location
 
         // If we do time travelling, the location in store is changed but location in history is not changed
-        if (props.history.action === 'PUSH' && (pathnameInHistory !== pathnameInStore || searchInHistory !== searchInStore || hashInHistory !== hashInStore)) {
+        if (history.action === 'PUSH' && (pathnameInHistory !== pathnameInStore || searchInHistory !== searchInStore || hashInHistory !== hashInStore)) {
           this.inTimeTravelling = true
           // Update history's location to match store's location
-          props.history.push({
+          history.push({
             pathname: pathnameInStore,
             search: searchInStore,
             hash: hashInStore,
@@ -49,14 +49,14 @@ const createConnectedRouter = (structure) => {
       const handleLocationChange = (location, action) => {
         // Dispatch onLocationChanged except when we're in time travelling
         if (!this.inTimeTravelling) {
-          props.onLocationChanged(location, action)
+          onLocationChanged(location, action)
         } else {
           this.inTimeTravelling = false
         }
       }
 
       // Listen to history changes
-      this.unlisten = props.history.listen(handleLocationChange)
+      this.unlisten = history.listen(handleLocationChange)
     }
 
     componentWillUnmount() {
