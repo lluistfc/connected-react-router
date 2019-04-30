@@ -1,3 +1,5 @@
+> Breaking change in v5.0.0! Please see the [release note](https://github.com/supasate/connected-react-router/releases/tag/v5.0.0).
+
 Connected React Router [![Build Status](https://travis-ci.org/supasate/connected-react-router.svg?branch=master)](https://travis-ci.org/supasate/connected-react-router) [![Open Source Helpers](https://www.codetriage.com/supasate/connected-react-router/badges/users.svg)](https://www.codetriage.com/supasate/connected-react-router)
 ======================
 A Redux binding for React Router v4
@@ -36,20 +38,32 @@ Usage
 ### Step 1
 
 - Create a `history` object.
-- Wrap the root reducer with `connectRouter` and supply the `history` object to get a new root reducer.
+- Create root reducer as a function that takes `history` as an argument and returns reducer.
+- Add `router` reducer into root reducer by passing `history` to `connectRouter`. Note: The key MUST be `router`.
 - Use `routerMiddleware(history)` if you want to dispatch history actions (e.g. to change URL with `push('/path/to/somewhere')`).
 
 
 ```js
+// reducers.js
+import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
+
+export default (history) => combineReducers({
+  router: connectRouter(history),
+  ... // rest of your reducers
+})
+
+// configureStore.js
 ...
 import { createBrowserHistory } from 'history'
 import { applyMiddleware, compose, createStore } from 'redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { routerMiddleware } from 'connected-react-router'
+import createRootReducer from './reducers'
 ...
 const history = createBrowserHistory()
 
 const store = createStore(
-  connectRouter(history)(rootReducer), // new root reducer with router state
+  createRootReducer(history), // root reducer with router state
   initialState,
   compose(
     applyMiddleware(
@@ -96,7 +110,7 @@ See the [examples](https://github.com/supasate/connected-react-router/tree/maste
 [FAQ](https://github.com/supasate/connected-react-router/tree/master/FAQ.md)
 -----
 - [How to navigate with Redux action](https://github.com/supasate/connected-react-router/tree/master/FAQ.md#how-to-navigate-with-redux-action)
-- [How to get the current browser location (URL)](https://github.com/supasate/connected-react-router/tree/master/FAQ.md#how-to-get-current-browser-location-url)
+- [How to get the current browser location (URL)](https://github.com/supasate/connected-react-router/tree/master/FAQ.md#how-to-get-the-current-browser-location-url)
 - [How to set Router props e.g. basename, initialEntries, etc.](https://github.com/supasate/connected-react-router/tree/master/FAQ.md#how-to-set-router-props-eg-basename-initialentries-etc)
 - [How to hot reload functional components](https://github.com/supasate/connected-react-router/tree/master/FAQ.md#how-to-hot-reload-functional-components)
 - [How to hot reload reducers](https://github.com/supasate/connected-react-router/tree/master/FAQ.md#how-to-hot-reload-reducers)

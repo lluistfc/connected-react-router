@@ -1,7 +1,7 @@
 # Frequently Asked Questions
 ----------------------------
 - [How to navigate with Redux action](#how-to-navigate-with-redux-action)
-- [How to get the current browser location (URL)](#how-to-get-current-browser-location-url)
+- [How to get the current browser location (URL)](#how-to-get-the-current-browser-location-url)
 - [How to set Router props e.g. basename, initialEntries, etc.](#how-to-set-router-props-eg-basename-initialentries-etc)
 - [How to hot reload functional components](#how-to-hot-reload-functional-components)
 - [How to hot reload reducers](#how-to-hot-reload-reducers)
@@ -184,40 +184,53 @@ if (module.hot) {
          ["es2015", { "modules": false }]
        ]
     */
-    store.replaceReducer(connectRouter(history)(rootReducer))
+    store.replaceReducer(rootReducer(history))
 
     /* For Webpack 1.x
     const nextRootReducer = require('./reducers').default
-    store.replaceReducer(connectRouter(history)(nextRootReducer))
+    store.replaceReducer(nextRootReducer(history))
     */
   })
 }
 ```
 
 ### How to support Immutable.js
-1) Use `combineReducers` from `redux-immutable` to create the root reducer.
+1) Create your root reducer as a function that takes `history` and returns reducer. Use `combineReducers` from `redux-immutable` to return the root reducer.
+
+2) Import `connectRouter` from `connected-react-router/immutable` and add router reducer to root reducer
 ```js
 import { combineReducers } from 'redux-immutable'
+import { connectRouter } from 'connected-react-router/immutable'
 ...
-const rootReducer = combineReducers({
+const rootReducer = (history) => combineReducers({
+  router: connectRouter(history),
   ...
 })
 ...
 ```
 
-2) Import `ConnectedRouter`, `routerMiddleware`, and `connectRouter` from `connected-react-router/immutable` instead of `connected-react-router`.
+2) Import `ConnectedRouter` and `routerMiddleware` from `connected-react-router/immutable` instead of `connected-react-router`.
 ```js
-import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router/immutable'
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router/immutable'
 ```
 
-3) (Optional) Initialize state with `Immutable.Map()`
+3) Create your root reducer with router reducer by passing `history` to `rootReducer` function
+```js
+const store = createStore(
+  rootReducer(history),
+  initialState,
+  ...
+)
+```
+
+4) (Optional) Initialize state with `Immutable.Map()`
 ```js
 import Immutable from 'immutable'
 ...
 const initialState = Immutable.Map()
 ...
 const store = createStore(
-  connectRouter(history)(rootReducer),
+  rootReducer(history),
   initialState,
   ...
 )
