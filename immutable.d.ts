@@ -1,7 +1,7 @@
 /// <reference path="./index.d.ts"/>
 
-declare module '@jht/connected-react-router/immutable' {
+declare module '@yaencontre/connected-react-router/immutable' {
 
-  export * from '@jht/connected-react-router';
+  export * from '@yaencontre/connected-react-router';
 
 }

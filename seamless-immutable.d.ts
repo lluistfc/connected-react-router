@@ -1,6 +1,6 @@
 /// <reference path="index.d.ts"/>
 
-declare module '@jht/connected-react-router/seamless-immutable' {
+declare module '@yaencontre/connected-react-router/seamless-immutable' {
 
-    export * from '@jht/connected-react-router';
+    export * from '@yaencontre/connected-react-router';
 }

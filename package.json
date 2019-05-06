@@ -1,5 +1,5 @@
 {
-  "name": "@jht/connected-react-router",
+  "name": "@yaencontre/connected-react-router",
   "version": "5.0.1",
   "description": "A Redux binding for React Router v4",
   "main": "lib/index.js",
@@ -74,9 +74,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lluistfc/connected-react-router.git"
+    "url": "https://github.com/supasate/connected-react-router.git"
   },
   "bugs": {
-    "url": "https://github.com/lluistfc/connected-react-router/issues"
+    "url": "https://github.com/supasate/connected-react-router/issues"
   }
 }
