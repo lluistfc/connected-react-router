@@ -1,5 +1,5 @@
 {
-  "name": "connected-react-router",
+  "name": "@jht/connected-react-router",
   "version": "5.0.1",
   "description": "A Redux binding for React Router v4",
   "main": "lib/index.js",
@@ -10,11 +10,10 @@
   "license": "MIT",
   "files": [
     "*.md",
-    "*.js",
-    "*.ts",
     "esm",
     "lib",
-    "umd"
+    "umd",
+    "*inmutable.*"
   ],
   "scripts": {
     "build:esm": "BABEL_ENV=esm babel src --out-dir esm",

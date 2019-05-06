@@ -1,4 +1,4 @@
-declare module 'connected-react-router' {
+declare module '@jht/connected-react-router' {
   import * as React from 'react';
   import { Middleware, Reducer } from 'redux';
   import {
