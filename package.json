@@ -1,6 +1,6 @@
 {
   "name": "@yaencontre/connected-react-router",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "A Redux binding for React Router v4",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -13,7 +13,8 @@
     "esm",
     "lib",
     "umd",
-    "*inmutable.*"
+    "*inmutable.*",
+    "*.d.ts"
   ],
   "scripts": {
     "build:esm": "BABEL_ENV=esm babel src --out-dir esm",
